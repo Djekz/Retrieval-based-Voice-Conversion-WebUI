@@ -1,7 +1,7 @@
 <div align="center">
 
 <h1>Retrieval-based-Voice-Conversion-WebUI</h1>
-An easy-to-use Voice Conversion framework based on VITS.<br><br>
+Retrieval-based-Voice-Conversion-WebUI (RVC) colab version .<br><br>
 
 [![madewithlove](https://img.shields.io/badge/made_with-%E2%9D%A4-red?style=for-the-badge&labelColor=orange
 )](https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI)
@@ -41,145 +41,8 @@ An easy-to-use Voice Conversion framework based on VITS.<br><br>
 + AMD/Intel graphics cards acceleration supported;
 + Intel ARC graphics cards acceleration with IPEX supported.
 
-## Preparing the environment
-The following commands need to be executed with Python 3.8 or higher.
 
-(Windows/Linux)
-First install the main dependencies through pip:
-```bash
-# Install PyTorch-related core dependencies, skip if installed
-# Reference: https://pytorch.org/get-started/locally/
-pip install torch torchvision torchaudio
 
-#For Windows + Nvidia Ampere Architecture(RTX30xx), you need to specify the cuda version corresponding to pytorch according to the experience of https://github.com/RVC-Project/Retrieval-based-Voice-Conversion-WebUI/issues/21
-#pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu117
-
-#For Linux + AMD Cards, you need to use the following pytorch versions:
-#pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.4.2
-```
-
-Then can use poetry to install the other dependencies:
-```bash
-# Install the Poetry dependency management tool, skip if installed
-# Reference: https://python-poetry.org/docs/#installation
-curl -sSL https://install.python-poetry.org | python3 -
-
-# Install the project dependencies
-poetry install
-```
-
-You can also use pip to install them:
-```bash
-
-for Nvidia graphics cards
-  pip install -r requirements.txt
-
-for AMD/Intel graphics cards on Windows (DirectML)：
-  pip install -r requirements-dml.txt
-
-for Intel ARC graphics cards on Linux / WSL using Python 3.10: 
-  pip install -r requirements-ipex.txt
-
-for AMD graphics cards on Linux (ROCm):
-  pip install -r requirements-amd.txt
-```
-
-------
-Mac users can install dependencies via `run.sh`:
-```bash
-sh ./run.sh
-```
-
-## Preparation of other Pre-models
-RVC requires other pre-models to infer and train.
-
-```bash
-#Download all needed models from https://huggingface.co/lj1995/VoiceConversionWebUI/tree/main/
-python tools/download_models.py
-```
-
-Or just download them by yourself from our [Huggingface space](https://huggingface.co/lj1995/VoiceConversionWebUI/tree/main/).
-
-Here's a list of Pre-models and other files that RVC needs:
-```bash
-./assets/hubert/hubert_base.pt
-
-./assets/pretrained 
-
-./assets/uvr5_weights
-
-Additional downloads are required if you want to test the v2 version of the model.
-
-./assets/pretrained_v2
-
-If you want to test the v2 version model (the v2 version model has changed the input from the 256 dimensional feature of 9-layer Hubert+final_proj to the 768 dimensional feature of 12-layer Hubert, and has added 3 period discriminators), you will need to download additional features
-
-./assets/pretrained_v2
-
-If you want to use the latest SOTA RMVPE vocal pitch extraction algorithm, you need to download the RMVPE weights and place them in the RVC root directory
-
-https://huggingface.co/lj1995/VoiceConversionWebUI/blob/main/rmvpe.pt
-
-    For AMD/Intel graphics cards users you need download:
-
-    https://huggingface.co/lj1995/VoiceConversionWebUI/blob/main/rmvpe.onnx
-
-```
-
-### 2. Install FFmpeg
-If you have FFmpeg and FFprobe installed on your computer, you can skip this step.
-
-#### For Ubuntu/Debian users
-```bash
-sudo apt install ffmpeg
-```
-#### For MacOS users
-```bash
-brew install ffmpeg
-```
-#### For Windwos users
-Download these files and place them in the root folder:
-- [ffmpeg.exe](https://huggingface.co/lj1995/VoiceConversionWebUI/blob/main/ffmpeg.exe)
-
-- [ffprobe.exe](https://huggingface.co/lj1995/VoiceConversionWebUI/blob/main/ffprobe.exe)
-
-## ROCm Support for AMD graphic cards (Linux only)
-To use ROCm on Linux install all required drivers as described [here](https://rocm.docs.amd.com/en/latest/deploy/linux/os-native/install.html).
-
-On Arch use pacman to install the driver:
-````
-pacman -S rocm-hip-sdk rocm-opencl-sdk
-````
-
-You might also need to set these environment variables (e.g. on a RX6700XT):
-````
-export ROCM_PATH=/opt/rocm
-export HSA_OVERRIDE_GFX_VERSION=10.3.0
-````
-Make sure your user is part of the `render` and `video` group:
-````
-sudo usermod -aG render $USERNAME
-sudo usermod -aG video $USERNAME
-````
-
-## Get started
-### start up directly
-Use the following command to start WebUI:
-```bash
-python infer-web.py
-```
-### Use the integration package
-Download and extract file `RVC-beta.7z`, then follow the steps below according to your system:
-#### For Windows users
-双击`go-web.bat`
-#### For MacOS users
-```bash
-sh ./run.sh
-```
-### For Intel IPEX users (Linux Only)
-```bash
-source /opt/intel/oneapi/setvars.sh
-```
 ## Credits
 + [ContentVec](https://github.com/auspicious3000/contentvec/)
 + [VITS](https://github.com/jaywalnut310/vits)
