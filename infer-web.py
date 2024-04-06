@@ -806,8 +806,8 @@ def change_f0_method(f0method8):
     return {"visible": visible, "__type__": "update"}
 
 
-with gr.Blocks(title="RVC WebUI") as app:
-    gr.Markdown("## RVC WebUI")
+with gr.Blocks(theme="Hev832/emerald", title="RVC WebUI") as app:
+    gr.Markdown("## RVC WebUI colab edition 💻")
     gr.Markdown(
         value=i18n(
             "本软件以MIT协议开源, 作者不对软件具备任何控制力, 使用软件者、传播软件导出的声音者自负全责. <br>如不认可该条款, 则不能使用或引用软件包内任何代码和文件. 详见根目录<b>LICENSE</b>."
